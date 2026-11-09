@@ -1,0 +1,25 @@
+# Coolify → New Resource → Docker Compose (from this repo/folder).
+# Domains:  tv-mcp  → port 8787 (Composio endpoint)
+#           tv-vnc  → port 6080 (ONLY while logging in; then set ENABLE_VNC=0 and remove the domain)
+services:
+  tradingview-cloud:
+    build: .
+    restart: unless-stopped
+    environment:
+      - GATEWAY_TOKEN=${GATEWAY_TOKEN}          # ≥24 chars: openssl rand -hex 24
+      - ENABLE_VNC=${ENABLE_VNC:-1}             # 1 for the first login only
+      - VNC_PASSWORD=${VNC_PASSWORD:-}          # ≥8 chars, required when ENABLE_VNC=1
+      - TVGW_ALLOW=${TVGW_ALLOW:-}              # extra tools, comma-separated (ui_* can never be added)
+    volumes:
+      - tv-profile:/home/tv/.config             # TradingView login session survives redeploys
+    shm_size: "1gb"                             # Electron needs shared memory
+    expose:
+      - "8787"
+      - "6080"
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 3g
+volumes:
+  tv-profile:

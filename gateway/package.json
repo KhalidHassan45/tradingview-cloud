@@ -1,0 +1,10 @@
+{
+  "name": "tv-desktop-gateway",
+  "version": "1.0.0",
+  "description": "Expose tradingview-mcp (TradingView Desktop) to Composio over Streamable HTTP with a token and a tool allow-list",
+  "type": "module",
+  "main": "gateway.mjs",
+  "scripts": { "start": "node gateway.mjs", "test": "node --test test.mjs" },
+  "dependencies": { "@modelcontextprotocol/sdk": "^1.27.1" },
+  "engines": { "node": ">=18" }
+}
